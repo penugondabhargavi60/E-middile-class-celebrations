@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body.home header {
+    background: url('img/piic.jpg') no-repeat center center/cover;
+    height: 100vh;
+    position: relative;
+  }
+  
+  header .main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .logo img {
+    width: 120px;
+  }
+  
+  header ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  header ul li {
+    margin: 0 10px;
+  }
+  
+  header ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+  }
+  
+  header ul li.active a,
+  header ul li a:hover {
+    background: #fff;
+    color: #000;
+  }
+  
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+  }
+  
+  .title h2 {
+    font-size: 3.5rem;
+    text-shadow: 2px 2px 5px black;
+  }
+  
+  .title h3 {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #ffc107;
+  }
+  
+  .title .btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: #ff5722;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 10px;
+  }
+  
+  .recipes {
+    padding: 60px 20px;
+    text-align: center;
+    background: #f5f5f5;
+  }
+  
+  .recipes h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+  
+  .box {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background: white;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .info {
+    padding: 15px;
+  }
+  
+  .info h3 {
+    margin-bottom: 10px;
+  }
+  
+  .info p {
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .info a {
+    text-decoration: none;
+    color: #ff5722;
+    font-weight: bold;
+  }
+  
+  .features {
+    background: #222;
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .feature {
+    width: 250px;
+    text-align: center;
+  }
+  
+  .feature i {
+    font-size: 2.5rem;
+    color: #ff5722;
+    margin-bottom: 15px;
+  }
+  
+  footer {
+    background: #111;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  footer .social a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+  
+  footer .social a:hover {
+    color: #ff5722;
+  }
+  body.about header {
+    background: #222;
+  }
+  
+  body.about header .main {
+    background: #333;
+  }
+  
+  body.about header ul li a {
+    color: white;
+  }
+  
+  body.about header ul li.active a,
+  body.about header ul li a:hover {
+    background: #fff;
+    color: #000;
+  }
+  
+  .team-members {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  
+  .team-member {
+    width: 250px;
+    text-align: center;
+  }
+  
+  .team-member img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .about-intro,
+  .mission,
+  .team {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .about-intro h2,
+  .mission h2,
+  .team h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  body.contact header {
+    background: #222;
+  }
+  
+  body.contact header .main {
+    background: #333;
+  }
+  
+  body.contact header ul li a {
+    color: white;
+  }
+  
+  body.contact header ul li.active a,
+  body.contact header ul li a:hover {
+    background: #fff;
+    color: #000;
+  }
+
+
+  body.recipe header {
+    background: #222;
+  }
+  
+  body.recipe header .main {
+    background: #333;
+  }
+  
+  body.recipe header ul li a {
+    color: white;
+  }
+  
+  body.recipe header ul li.active a,
+  body.recipe header ul li a:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  

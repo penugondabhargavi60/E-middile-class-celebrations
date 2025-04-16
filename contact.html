@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - E=MC^2</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="img/food.jpeg" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style>
+    body.contact {
+      background: #f5f5f5;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #222;
+      padding: 15px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li.active a {
+      background: white;
+      color: #222;
+    }
+
+    .contact-section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .submit-button {
+      padding: 10px 25px;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .submit-button:hover {
+      background: #e64a19;
+    }
+
+    .contact-info {
+      margin-top: 40px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .contact-info p {
+      font-size: 1.1rem;
+      color: #555;
+      margin: 8px 0;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body class="contact">
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="about.html"><i class="fa fa-info-circle"></i> About</a></li>
+          <li><a href="recipe.html"><i class="fa fa-cutlery"></i> Recipes</a></li>
+          <li class="active"><a href="contact.html"><i class="fa fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="contact-section">
+      <h2>Send us a Message</h2>
+      <form action="#" method="post">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="submit-button"><a href="index.html">Send Message</a></button>
+      </form>
+
+      <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p><strong>Email:</strong> tastyfood@gmail.com</p>
+        <p><strong>Phone:</strong> 9128666781</p>
+        <p><strong>Address:</strong> Hitech City, Hyderabad - 500081</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <p>&copy; 2025 Tasty Food Recipes</p>
+    </div>
+  </footer>
+
+</body>
+</html>

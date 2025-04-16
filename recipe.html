@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipes - E=MC^2</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="img/food.jpeg" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <style>
+  
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .category-title {
+      text-align: center;
+      margin: 30px 0;
+      color: #333;
+      font-size: 2em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+    
+    .menu-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    
+    .menu-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .menu-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .menu-card-content {
+      padding: 20px;
+    }
+    
+    .menu-card h3 {
+      margin: 0 0 10px;
+      color: #222;
+      font-size: 1.4em;
+    }
+    
+    .menu-card p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    .submenu {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      padding: 20px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+    
+    .menu-card:target .submenu {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .submenu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .submenu-header h3 {
+      margin: 0;
+      color: #333;
+    }
+    
+    .close-btn {
+      text-decoration: none;
+      color: #ff6b6b;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    
+    .menu-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .menu-item {
+      padding: 12px 0;
+      border-bottom: 1px dashed #eee;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-name {
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .item-price {
+      color: #ff6b6b;
+      font-weight: bold;
+    }
+    
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .menu-card:target ~ .backdrop {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .category-divider {
+      text-align: center;
+      margin: 40px 0;
+      position: relative;
+    }
+    
+    .category-divider h2 {
+      display: inline-block;
+      background: white;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+      color: #ff6b6b;
+      text-transform: uppercase;
+      font-size: 1.5em;
+    }
+    
+    .category-divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #ddd;
+      z-index: 0;
+    }
+    
+.feedback-btn-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.feedback-btn {
+  display: inline-block;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.feedback-btn:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-btn i {
+  margin-right: 8px;
+}
+
+.feedback-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none; 
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0; 
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.feedback-popup:target {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.feedback-popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90%; 
+  overflow-y: auto; 
+  position: relative;
+}
+
+.feedback-popup h3 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.feedback-form .form-group {
+  margin-bottom: 20px;
+}
+
+.feedback-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.feedback-form select,
+.feedback-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+.feedback-form select:focus,
+.feedback-form textarea:focus {
+  border-color: #ff6b6b;
+  outline: none;
+}
+
+.feedback-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #ff5252;
+}
+
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 22px;
+  color: #888;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: none;
+}
+    footer {
+      background-color: #111;
+      color: #ccc;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body class="recipe">
+
+  <header>
+    <div class="main">
+      <div class="logo">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="about.html"><i class="fa fa-info-circle"></i> About</a></li>
+          <li class="active"><a href="recipe.html"><i class="fa fa-cutlery"></i> Recipes</a></li>
+          <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="feedback-btn-container">
+    <a href="#feedbackPopup" class="feedback-btn">
+      <i class="fa fa-comment"></i> Share Your Feedback
+    </a>
+  </div>
+
+  <div id="feedbackPopup" class="feedback-popup">
+    <div class="feedback-popup-content">
+      <a href="#" class="close-popup">&times;</a>
+      <h3>We Value Your Opinion</h3>
+      <form class="feedback-form" action="#" method="post">
+        <div class="form-group">
+          <label for="visit-purpose">What was the purpose of your visit?</label>
+          <select id="visit-purpose" name="visit-purpose">
+            <option value="">Select an option</option>
+            <option value="dining">Dining in</option>
+            <option value="takeaway">Takeaway</option>
+            <option value="delivery">Delivery</option>
+            <option value="browsing">Just browsing</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="food-quality">How would you rate the food quality?</label>
+          <select id="food-quality" name="food-quality">
+            <option value="">Select rating</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="average">Average</option>
+            <option value="poor">Poor</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="service">How would you rate our service?</label>
+          <select id="service" name="service">
+            <option value="">Select rating</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="average">Average</option>
+            <option value="poor">Poor</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="cleanliness">How would you rate the cleanliness?</label>
+          <select id="cleanliness" name="cleanliness">
+            <option value="">Select rating</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="average">Average</option>
+            <option value="poor">Poor</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="recommend">Would you recommend us to others?</label>
+          <select id="recommend" name="recommend">
+            <option value="">Select an option</option>
+            <option value="definitely">Definitely</option>
+            <option value="probably">Probably</option>
+            <option value="not-sure">Not sure</option>
+            <option value="no">Probably not</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="comments">Any additional comments or suggestions?</label>
+          <textarea id="comments" name="comments" placeholder="Your feedback helps us improve..."></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn"><a href="recipe.html">Submit Feedback</a></button>
+      </form>
+    </div>
+  </div>
+
+
+  <main>
+    <h1 class="category-title">Our Delicious Menu</h1>
+    
+    <div class="category-divider">
+      <h2>Non-Vegetarian</h2>
+    </div>
+    
+    <div class="menu-container">
+      <div class="menu-card" id="nonveg-starters">
+        <img src="img/image1.jpg" alt="Non-Veg Starters">
+        <div class="menu-card-content">
+          <h3>Non-Veg Starters</h3>
+          <p>Spicy and flavorful appetizers to start your meal</p>
+          <a href="#nonveg-starters">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Non-Veg Starters</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Chicken Tikka balls</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Fish Fingers</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Samosas</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Wings</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Prawn fry</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Chilli chicken</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Satay</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Dragon chicken</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Tandoori Chicken</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Chicken 65</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Cutlets</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Lollipop</span> <span class="item-price">₹ 200</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="nonveg-biryani">
+        <img src="img/image2.jpg" alt="Non-Veg Biryani">
+        <div class="menu-card-content">
+          <h3>Non-Veg Biryani</h3>
+          <p>Aromatic rice dishes with succulent meats</p>
+          <a href="#nonveg-biryani">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Non-Veg Biryani</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Chicken Biryani</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Biryani</span> <span class="item-price">₹ 300</span></li>
+            <li class="menu-item"><span class="item-name">Fish Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Egg Biryani</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Prawn Biryani</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Tadipatri chicken dum Biryani</span> <span class="item-price">₹ 350</span></li>
+            <li class="menu-item"><span class="item-name">Spl Chicken Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Dum Biryani</span> <span class="item-price">₹ 330</span></li>
+            <li class="menu-item"><span class="item-name">Hyderabadi chicken Biryani</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Kolkata Chicken Biryani</span> <span class="item-price">₹ 300</span></li>
+            <li class="menu-item"><span class="item-name">Sindhi chicken Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Kashmiri chicken Biryani</span> <span class="item-price">₹ 350</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="nonveg-curries">
+        <img src="img/non_veg_curry.png" alt="Non-Veg Curries">
+        <div class="menu-card-content">
+          <h3>Non-Veg Curries</h3>
+          <p>Rich and flavorful meat curries</p>
+          <a href="#nonveg-curries">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Non-Veg Curries</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Chicken Tikka Masala</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Butter Chicken Curry</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Rogan Josh</span> <span class="item-price">₹ 380</span></li>
+            <li class="menu-item"><span class="item-name">Fish Curry</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Prawn Curry</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Spl chicken curry</span> <span class="item-price">₹ 380</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Jalfrezi</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Jalfrezi</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Gongura Chicken</span> <span class="item-price">₹ 300</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Chettinad</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Mutton Nihari</span> <span class="item-price">₹ 350</span></li>
+            <li class="menu-item"><span class="item-name">Fish Moilee</span> <span class="item-price">₹ 300</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="category-divider">
+      <h2>Vegetarian</h2>
+    </div>
+    
+    <div class="menu-container">
+      <div class="menu-card" id="veg-starters">
+        <img src="img/veg_starter.jpg" alt="Veg Starters">
+        <div class="menu-card-content">
+          <h3>Veg Starters</h3>
+          <p>Delicious vegetarian appetizers</p>
+          <a href="#veg-starters">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Veg Starters</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Veg Samosas</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Tikka</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Cauliflower Fritters</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Onion Bhajis</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Tikka</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Baby Corn Fritters</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Veg Spring Rolls</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Pakora</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Hara Bhara Kabab</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Aloo Tikki</span> <span class="item-price">₹ 90</span></li>
+            <li class="menu-item"><span class="item-name">Corn Cheese Balls</span> <span class="item-price">₹ 140</span></li>
+            <li class="menu-item"><span class="item-name">Stuffed Mushrooms</span> <span class="item-price">₹ 180</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="veg-biryani">
+        <img src="img/veg-biryani-vegetable-biryani.jpg" alt="Veg Biryani">
+        <div class="menu-card-content">
+          <h3>Veg Biryani</h3>
+          <p>Flavorful vegetarian rice dishes</p>
+          <a href="#veg-biryani">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Veg Biryani</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Veg Biryani</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Biryani</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Saffron Rice</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Veg Dum Biryani</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Dum Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Dum Biryani</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Saffron Biryani</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Jeera Rice</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Kashmiri Pulao</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Vegetable Pulao</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Dal Khichdi</span> <span class="item-price">₹ 200</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="veg-curries">
+        <img src="img/12_South_Indian_Recipes.jpg" alt="Veg Curries">
+        <div class="menu-card-content">
+          <h3>Veg Curries</h3>
+          <p>Hearty vegetarian curries</p>
+          <a href="#veg-curries">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Veg Curries</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Palak Paneer</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Chana Masala</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Saag Aloo</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Vegetable Korma</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Matar</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Butter Masala</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Veg Jalfrezi</span> <span class="item-price">₹ 240</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Jalfrezi</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Dal Makhani</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Aloo Gobi</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Baingan Bharta</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Rajma Masala</span> <span class="item-price">₹ 240</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="category-divider">
+      <h2>Fried Rice & Chinese</h2>
+    </div>
+    
+    <div class="menu-container">
+      <div class="menu-card" id="fried-rice">
+        <img src="img/fried_rice.jpg" alt="Fried Rice">
+        <div class="menu-card-content">
+          <h3>Fried Rice</h3>
+          <p>Delicious rice stir-fried with vegetables and meats</p>
+          <a href="#fried-rice">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Fried Rice</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Veg Fried Rice</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Fried Rice</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Seafood Fried Rice</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Egg Fried Rice</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Fried Rice</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Fried Rice</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Veg Schezwan Fried Rice</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Schezwan Fried Rice</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Thai Fried Rice</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">Kimchi Fried Rice</span> <span class="item-price">₹ 300</span></li>
+            <li class="menu-item"><span class="item-name">Bamboo Rice</span> <span class="item-price">₹ 320</span></li>
+            <li class="menu-item"><span class="item-name">Pineapple Fried Rice</span> <span class="item-price">₹ 280</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="chinese">
+        <img src="img/best restaurants in Mumbai for Indian Chinese food.webp" alt="Chinese Items">
+        <div class="menu-card-content">
+          <h3>Chinese Items</h3>
+          <p>Popular Indo-Chinese dishes</p>
+          <a href="#chinese">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Chinese Items</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Noodles</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Manchurian</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Spring Rolls</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Wonton Soup</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Veg Chowmein</span> <span class="item-price">₹ 200</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Chowmein</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Paneer Chilli</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Mushroom Chilli</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Hakka Noodles</span> <span class="item-price">₹ 220</span></li>
+            <li class="menu-item"><span class="item-name">Szechuan Fried Rice</span> <span class="item-price">₹ 280</span></li>
+            <li class="menu-item"><span class="item-name">American Chopsuey</span> <span class="item-price">₹ 250</span></li>
+            <li class="menu-item"><span class="item-name">Chicken Lollipop</span> <span class="item-price">₹ 280</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="category-divider">
+      <h2>Desserts & Beverages</h2>
+    </div>
+    
+    <div class="menu-container">
+      <div class="menu-card" id="desserts">
+        <img src="img/ai-generated-cream-table-dessert-food-photo.jpg" alt="Desserts">
+        <div class="menu-card-content">
+          <h3>Desserts</h3>
+          <p>Sweet treats to end your meal</p>
+          <a href="#desserts">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Desserts</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Gulab Jamun</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Ras Malai</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Jalebi</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Ice Cream Falooda</span> <span class="item-price">₹ 180</span></li>
+            <li class="menu-item"><span class="item-name">Kulfi</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Barfi</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Ladoo</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Halwa</span> <span class="item-price">₹ 150</span></li>
+            <li class="menu-item"><span class="item-name">Rasgulla</span> <span class="item-price">₹ 90</span></li>
+            <li class="menu-item"><span class="item-name">Gajar Ka Halwa</span> <span class="item-price">₹ 140</span></li>
+            <li class="menu-item"><span class="item-name">Phirni</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Shahi Tukda</span> <span class="item-price">₹ 150</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="icecream">
+        <img src="img/ice_creams.jpg" alt="Ice Cream">
+        <div class="menu-card-content">
+          <h3>Ice Cream</h3>
+          <p>Creamy frozen desserts</p>
+          <a href="#icecream">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Ice Cream</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Vanilla</span> <span class="item-price">₹ 50</span></li>
+            <li class="menu-item"><span class="item-name">Chocolate</span> <span class="item-price">₹ 50</span></li>
+            <li class="menu-item"><span class="item-name">Strawberry</span> <span class="item-price">₹ 50</span></li>
+            <li class="menu-item"><span class="item-name">Mango</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Pineapple</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Butterscotch</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Pista</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Cookie Dough</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Black Forest</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Tutti Frutti</span> <span class="item-price">₹ 90</span></li>
+            <li class="menu-item"><span class="item-name">Kaju Kishmish</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name">Choco Chips</span> <span class="item-price">₹ 100</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="menu-card" id="drinks">
+        <img src="img/beverages.jpg" alt="Cool Drinks">
+        <div class="menu-card-content">
+          <h3>Cool Drinks</h3>
+          <p>Refreshing beverages</p>
+          <a href="#drinks">View Items →</a>
+        </div>
+        <div class="submenu">
+          <div class="submenu-header">
+            <h3>Cool Drinks</h3>
+            <a href="#!" class="close-btn">&times;</a>
+          </div>
+          <ul class="menu-items">
+            <li class="menu-item"><span class="item-name">Soft Drinks</span> <span class="item-price">₹ 40</span></li>
+            <li class="menu-item"><span class="item-name">Lassi</span> <span class="item-price">₹ 40</span></li>
+            <li class="menu-item"><span class="item-name">Fresh Lime Soda</span> <span class="item-price">₹ 50</span></li>
+            <li class="menu-item"><span class="item-name">Mango Shake</span> <span class="item-price">₹ 80</span></li>
+            <li class="menu-item"><span class="item-name">Banana Shake</span> <span class="item-price">₹ 70</span></li>
+            <li class="menu-item"><span class="item-name">Strawberry Shake</span> <span class="item-price">₹ 90</span></li>
+            <li class="menu-item"><span class="item-name">Chocolate Shake</span> <span class="item-price">₹ 90</span></li>
+            <li class="menu-item"><span class="item-name">Cold Coffee</span> <span class="item-price">₹ 100</span></li>
+            <li class="menu-item"><span class="item-name">Masala Chaas</span> <span class="item-price">₹ 50</span></li>
+            <li class="menu-item"><span class="item-name">Fruit Punch</span> <span class="item-price">₹ 120</span></li>
+            <li class="menu-item"><span class="item-name"> Mojitos</span> <span class="item-price">₹ 110</span></li>
+            <li class="menu-item"><span class="item-name">Iced Tea</span> <span class="item-price">₹ 80</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="backdrop"></div>
+  </main>
+
+  
+  <footer>
+    <p>&copy; 2025 Tasty Food Recipes</p>
+  </footer>
+
+
+</body>
+</html>

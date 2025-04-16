@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - E=MC^2</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="img/food.jpeg" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style>
+    body.about {
+      background: #f9f9f9;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #222;
+      padding: 15px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li.active a {
+      background: white;
+      color: #222;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .about-mission-section {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .about-mission-section .card {
+      flex: 1 1 500px;
+      max-width: 550px;
+    }
+
+    .team {
+      text-align: center;
+    }
+
+    .team h2 {
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .team-members {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .team-member {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      width: 250px;
+      transition: transform 0.3s;
+    }
+
+    .team-member:hover {
+      transform: translateY(-8px);
+    }
+
+    .team-member img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 15px auto;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #eee;
+  object-position: center top; 
+}
+
+
+    .team-member h3 {
+      margin: 10px 0 5px;
+      color: #222;
+    }
+
+    .team-member p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .team-members {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .about-mission-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .about-mission-section .card {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="about">
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active"><a href="about.html"><i class="fa fa-info-circle"></i> About</a></li>
+          <li><a href="recipe.html"><i class="fa fa-cutlery"></i> Recipes</a></li>
+          <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <main>
+    <section class="about-mission-section">
+      <div class="card about-intro">
+        <h2>About Us</h2>
+        <p>Welcome to E=MC^2! We are offering an enjoyable and convenient way to mark special occasions and provide delicious food to our customers. Whether it’s a birthday, anniversary, or a casual get-together, we’re here to elevate every moment with taste and love.</p>
+      </div>
+
+      <div class="card mission">
+        <h2>Our Mission</h2>
+        <p>At E=MC^2, our mission is to provide a warm and inviting atmosphere where middle-class families and friends can come together to celebrate life’s special moments. We regularly offer exclusive coupons and discounts to our loyal customers giving them an unbeatable dining experience at an unbeatable price.</p>
+      </div>
+    </section>
+
+    <section class="team">
+      <h2>Meet Our Team</h2>
+      <div class="team-members">
+        <div class="team-member">
+          <img src="img/image10.jpg" alt="James">
+          <h3>James</h3>
+          <p>Founder & CEO</p>
+        </div>
+        <div class="team-member">
+          <img src="img/image11.jpg" alt="Brayan">
+          <h3>Brayan</h3>
+          <p>Chairman</p>
+        </div>
+        <div class="team-member">
+          <img src="img/image12.jpg" alt="Amelia">
+          <h3>Amelia</h3>
+          <p>Manager</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <p>&copy; 2025 Tasty Food Recipes</p>
+    </div>
+  </footer>
+</body>
+</html>
